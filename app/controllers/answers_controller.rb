@@ -3,13 +3,18 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = question.answers.new(answers_params)
+    @answer = question.answers.new(answers_params.merge( user_id: current_user.id)  )
 
     if @answer.save
-      redirect_to question
+      redirect_to question, notice: 'You answer successfully created.'
     else
-      render :new
+      redirect_to question, alert: "Body can't be blank"
     end
+  end
+
+  def destroy
+    answer.destroy
+    redirect_to question_path(answer.question), notice: 'Answer successfully deleted.'
   end
 
   private
