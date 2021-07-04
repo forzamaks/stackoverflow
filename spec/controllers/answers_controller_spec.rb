@@ -35,8 +35,38 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-render new' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to render_template 'questions/show'
       end
     end
+  end
+
+  describe 'DELETE #destroy' do
+    before { login(user) }
+
+    let!(:answer) {create :answer, question: question, user: user }
+    let!(:second_user) { create(:user) }
+    let!(:second_answer) {create :answer, question: question, user: second_user }
+
+    context 'Authorized author' do
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+
+    context 'Authorized other user' do
+      it 'delete anothers answer' do
+        expect { delete :destroy, params: { id: second_answer }}.to_not change(Answer, :count)
+      end
+
+      it 'redirect to index' do
+        delete :destroy, params: { id: second_answer }
+        expect(response).to redirect_to question_path(second_answer.question)
+      end
+    end  
   end
 end

@@ -22,8 +22,15 @@ feature 'User can delete own answer', %q{
     expect(page).to_not have_content answer.body  
   end
 
-  scenario 'Other user tries to delete answer' do
+  scenario 'Other authorized user tries to delete answer' do
     sign_in(second_user)
+    visit question_path(question)
+
+    expect(page).to have_content answer.body
+    expect(page).to_not have_link 'Delete answer'
+  end
+
+  scenario 'Unauthorized user tries to delete answer' do
     visit question_path(question)
 
     expect(page).to have_content answer.body

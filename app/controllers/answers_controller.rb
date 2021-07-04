@@ -8,13 +8,17 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question, notice: 'You answer successfully created.'
     else
-      redirect_to question, alert: "Body can't be blank"
+      render 'questions/show'
     end
   end
 
   def destroy
-    answer.destroy
-    redirect_to question_path(answer.question), notice: 'Answer successfully deleted.'
+    if current_user&.author_off?(answer)
+      answer.destroy
+      redirect_to question_path(answer.question), notice: 'Answer successfully deleted.'
+    else
+      redirect_to question_path(answer.question), notice: 'You have no rigths to delete this answer.'
+    end
   end
 
   private
