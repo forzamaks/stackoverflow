@@ -62,15 +62,32 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     before { login(user) }
     let!(:question) { create(:question, user: user) }
+    let!(:second_user) { create(:user) }
+    let!(:second_question) { create(:question, user: second_user) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question.where(user: user), :count).by(-1)
+    context 'Authorized author' do
+
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question.where(user: user), :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'Authorized other user' do
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: second_question } }.to_not change(Question, :count)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: second_question }
+        expect(response).to redirect_to questions_path
+      end
     end
+    
   end
 
 end
