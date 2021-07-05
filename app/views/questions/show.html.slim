@@ -1,10 +1,7 @@
-h1= question.title
-p= question.body
-- if current_user&.autor_of?(question)
-  p 
-    = link_to 'Delete', question_path(question), method: :delete, data: { confirm: 'Are you sure?' }
+= render question
 
-== render question.answers
+.answers.mt-3
+  = render question.answers.sort_by_best
 
 - if user_signed_in?
   =render 'answers/form'

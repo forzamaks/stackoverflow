@@ -10,19 +10,17 @@ feature 'User can delete own answer', %q{
   given!(:answer) { create(:answer, question: question, user: user) }
 
 
-  scenario 'Answer owner tries to delete answer' do
+  scenario 'Answer owner tries to delete answer', js: true do
     sign_in(user)
     visit question_path(question)
 
     expect(page).to have_content answer.body
 
     click_on 'Delete answer'
-
-    expect(page).to have_content 'Answer successfully deleted.'
     expect(page).to_not have_content answer.body  
   end
 
-  scenario 'Other authorized user tries to delete answer' do
+  scenario 'Other authorized user tries to delete answer', js: true do
     sign_in(second_user)
     visit question_path(question)
 
@@ -30,7 +28,7 @@ feature 'User can delete own answer', %q{
     expect(page).to_not have_link 'Delete answer'
   end
 
-  scenario 'Unauthorized user tries to delete answer' do
+  scenario 'Unauthorized user tries to delete answer', js: true do
     visit question_path(question)
 
     expect(page).to have_content answer.body

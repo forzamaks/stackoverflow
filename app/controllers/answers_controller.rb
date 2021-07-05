@@ -3,22 +3,24 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = question.answers.new(answers_params.merge( user_id: current_user.id)  )
-
-    if @answer.save
-      redirect_to question, notice: 'You answer successfully created.'
-    else
-      render 'questions/show'
-    end
+    @answer = question.answers.create(answers_params.merge( user_id: current_user.id)  )
   end
 
   def destroy
     if current_user&.autor_of?(answer)
       answer.destroy
-      redirect_to question_path(answer.question), notice: 'Answer successfully deleted.'
-    else
-      redirect_to question_path(answer.question), notice: 'You have no rigths to delete this answer.'
     end
+  end
+
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answers_params)
+    @question = @answer.question
+  end
+
+  def mark_as_best
+    answer.mark_as_best if current_user&.autor_of?(answer)
+    @question = answer.question
   end
 
   private
