@@ -1,0 +1,3 @@
+$('.container').prepend('<%= render 'shared/flash', resource: @answer %>');
+
+$('.answer[data-answer-id="<%= @answer.id %>"]').remove()

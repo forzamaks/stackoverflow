@@ -90,4 +90,64 @@ RSpec.describe QuestionsController, type: :controller do
     
   end
 
+  describe 'PATH #update' do
+    before { login(user) }
+    let!(:second_user) { create(:user) }
+    let!(:second_answer) {create :question, user: second_user }
+    
+
+    context 'with valid attributes' do
+      it 'change question attributes' do
+        patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
+        question.reload
+        expect(question.body).to eq 'new body'
+      end
+      it 'render update views' do
+        patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the question' do
+        expect do
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        end.to_not change(question, :body)
+      end
+
+      it 'render update views' do
+        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'Unauthorized author' do
+      before { login(second_user) }
+      it 'Edit the question' do
+        patch :update, params: { id: question, question: { body: 'new second body' } }, format: :js 
+        question.reload
+        expect(question.body).to eq 'new second body'
+      end
+
+      it 'render update views' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+
+    context 'Authenticated author' do
+      it 'update the question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        question.reload
+        expect(question.body).to eq question.body
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+  end
 end
