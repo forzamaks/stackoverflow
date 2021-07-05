@@ -10,9 +10,16 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
   body
-    - if user_signed_in?
-      = link_to 'Log out', destroy_user_session_path, method: Devise.sign_out_via
-    p.notice= notice
-    p.alert= alert 
-    = yield 
+    nav.navbar.navbar-dark.bg-dark
+      .container
+        = link_to 'Stackoverflow', root_path, class: 'navbar-brand'
+        ul.navbar-nav.me-auto.mb-2.mb-lg-0
+          - if user_signed_in?
+            li.nav-item
+              = link_to 'Log out', destroy_user_session_path, method: Devise.sign_out_via, class: 'nav-link'
+    / p.notice= notice
+    / p.alert= alert
+    = render 'shared/flash'
+    .container
+      = yield 
 

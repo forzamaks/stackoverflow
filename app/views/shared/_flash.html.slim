@@ -1,0 +1,3 @@
+- flash.each do |key, message|
+  div class="alert alert-#{flash_class_name(key)}" role="alert"
+    = message.html_safe
