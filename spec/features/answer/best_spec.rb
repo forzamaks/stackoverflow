@@ -5,10 +5,11 @@ feature 'The author can choose the best answer', "
   I would like to choose the best answer
 " do
   given!(:user) { create(:user) }
-  given!(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, question: question, user: user) }
-
   given!(:other_user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: other_user) }
+
+  
 
   scenario 'Unauthenticated cannot mark the best answer' do
     visit question_path(question)
@@ -18,7 +19,7 @@ feature 'The author can choose the best answer', "
 
   describe 'Authenticated user' do
     scenario 'Can mark the best answer if user owner of the question', js: true do
-      sign_in user
+      sign_in(user)
       visit question_path(question)
 
       within ".answer[data-answer-id='#{answer.id}']" do

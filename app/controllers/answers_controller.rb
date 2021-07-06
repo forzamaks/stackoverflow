@@ -13,13 +13,15 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = Answer.find(params[:id])
-    @answer.update(answers_params)
+    if current_user&.autor_of?(answer)
+      @answer = Answer.find(params[:id])
+      @answer.update(answers_params)
+    end
     @question = @answer.question
   end
 
   def mark_as_best
-    answer.mark_as_best if current_user&.autor_of?(answer)
+    answer.mark_as_best if current_user&.autor_of?(answer.question)
     @question = answer.question
   end
 

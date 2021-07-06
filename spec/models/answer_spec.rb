@@ -8,10 +8,11 @@ RSpec.describe Answer, type: :model do
 
   describe 'best answer' do
     let(:user) { create(:user) }
-    let(:question) { create(:question, user: user) }
-    let(:answer) { create(:answer, question: question, user: user) }
+    let(:second_user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
-    let(:second_answer) { create(:answer, question: question, user: user) }
+    let!(:second_answer) { create(:answer, question: question, user: second_user) }
 
     context 'mark best' do
       it 'marked the best' do
@@ -20,10 +21,13 @@ RSpec.describe Answer, type: :model do
       end
 
       it 'Unmarked the best' do
-        answer.mark_as_best
-        expect(answer).to be_best
         second_answer.mark_as_best
+        expect(second_answer).to be_best
+        answer.mark_as_best
+        answer.reload
+        second_answer.reload
         expect(answer).to be_best
+        expect(second_answer).to_not be_best
       end
 
       it 'only one answer may be the best' do
