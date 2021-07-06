@@ -121,17 +121,12 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'Unauthorized author' do
+    context 'Authorized user' do
       before { login(second_user) }
       it 'Edit the question' do
         patch :update, params: { id: question, question: { body: 'new second body' } }, format: :js 
         question.reload
-        expect(question.body).to eq 'new second body'
-      end
-
-      it 'render update views' do
-        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
-        expect(response).to render_template :update
+        expect(question.body).to_not eq 'new second body'
       end
     end
 

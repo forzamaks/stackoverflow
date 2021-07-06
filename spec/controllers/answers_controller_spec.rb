@@ -102,17 +102,12 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'Unauthorized author' do
+    context 'Authorized user' do
       before { login(second_user) }
       it 'Edit the answer' do
         patch :update, params: { id: answer, answer: { body: 'new second body' } }, format: :js 
         answer.reload
-        expect(answer.body).to eq 'new second body'
-      end
-
-      it 'render update views' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
-        expect(response).to render_template :update
+        expect(answer.body).to_not eq 'new second body'
       end
     end
 
@@ -152,7 +147,7 @@ RSpec.describe AnswersController, type: :controller do
       before { post :mark_as_best, params: { id: answer }, format: :js }
 
       it 'Do not mark the best answer' do
-        expect { answer.reload }.not_to change(answer, :best)
+        expect { answer.reload }.to_not change(answer, :best)
       end
 
       it 'renders best template' do

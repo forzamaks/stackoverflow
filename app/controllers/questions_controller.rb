@@ -31,7 +31,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params)
+    if current_user&.autor_of?(question)
+      question.update(question_params)
+    end
   end
 
   private
