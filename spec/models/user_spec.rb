@@ -12,9 +12,9 @@ RSpec.describe User, type: :model do
   let(:answer) { create(:answer, question: question, user: user) }
 
   it 'User is author of question' do
-    expect(user).to be_autor_of(question)
+    expect(user).to be_author_of(question)
   end
   it 'User is author of answer' do
-    expect(user).to be_autor_of(answer)
+    expect(user).to be_author_of(answer)
   end
 end

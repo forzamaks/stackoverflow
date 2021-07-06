@@ -7,21 +7,20 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user&.autor_of?(answer)
+    if current_user&.author_of?(answer)
       answer.destroy
     end
   end
 
   def update
-    if current_user&.autor_of?(answer)
-      @answer = Answer.find(params[:id])
-      @answer.update(answers_params)
-      @question = @answer.question
+    if current_user&.author_of?(answer)
+      answer.update(answers_params)
+      @question = answer.question
     end
   end
 
   def mark_as_best
-    answer.mark_as_best if current_user&.autor_of?(answer.question)
+    answer.mark_as_best if current_user&.author_of?(answer.question)
     @question = answer.question
   end
 
