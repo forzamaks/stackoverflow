@@ -110,21 +110,6 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'new second body'
       end
     end
-
-
-    context 'Authenticated author' do
-      it 'update the answer' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
-        answer.reload
-        expect(answer.body).to eq answer.body
-      end
-
-      it 'renders update view' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
-        expect(response).to render_template :update
-      end
-    end
-
   end
 
   describe 'POST #mark_best_answer' do
