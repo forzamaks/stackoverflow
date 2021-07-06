@@ -16,8 +16,8 @@ class AnswersController < ApplicationController
     if current_user&.autor_of?(answer)
       @answer = Answer.find(params[:id])
       @answer.update(answers_params)
+      @question = @answer.question
     end
-    @question = @answer.question
   end
 
   def mark_as_best
