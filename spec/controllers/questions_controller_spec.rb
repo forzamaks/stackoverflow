@@ -129,20 +129,5 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to_not eq 'new second body'
       end
     end
-
-
-    context 'Authenticated author' do
-      it 'update the question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
-        question.reload
-        expect(question.body).to eq question.body
-      end
-
-      it 'renders update view' do
-        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
-        expect(response).to render_template :update
-      end
-    end
-
   end
 end
