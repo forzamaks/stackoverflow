@@ -5,9 +5,9 @@
         span.badge.bg-success= 'Best'
       p= answer.body
       .btn-group
-        - if current_user&.autor_of?(answer.question) && !answer.best?
+        - if current_user&.author_of?(answer.question) && !answer.best?
             = link_to 'Mark as favorite', mark_as_best_answer_path(answer), method: :post, remote: true, class: 'btn btn-primary'
-        - if current_user&.autor_of?(answer)
+        - if current_user&.author_of?(answer)
           = link_to 'Edit', '#', class: 'btn btn-warning js-edit', data: {answer_id: answer.id}
           = link_to 'Delete answer', answer_path(answer),
                                     method: :delete,
