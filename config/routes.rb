@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope :active_storage, module: :active_storage, as: :active_storage do
+    resources :attachments, only: [:destroy]
+  end
+
   root to: "questions#index"
   
 end

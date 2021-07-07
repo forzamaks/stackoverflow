@@ -4,6 +4,9 @@
       - if answer.best?
         span.badge.bg-success= 'Best'
       p= answer.body
+      - if answer.files.attached?
+        = render 'shared/attachments', resource: answer
+      br/
       .btn-group
         - if current_user&.author_of?(answer.question) && !answer.best?
             = link_to 'Mark as favorite', mark_as_best_answer_path(answer), method: :post, remote: true, class: 'btn btn-primary'
@@ -14,9 +17,12 @@
                                     remote: true,
                                     class: 'btn btn-danger'
 
-        = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
-          .form-errors data-form-id="#{answer.id}"
-          .mb-3
-            = f.label :body, class: 'form-label'
-            = f.text_area :body, class: 'form-control'
-          = f.submit 'Save', class: 'btn btn-primary'
+      = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
+        .form-errors data-form-id="#{answer.id}"
+        .mb-3
+          = f.label :body, class: 'form-label'
+          = f.text_area :body, class: 'form-control'
+        .mb-3
+          = f.label :files, class: 'form-label'
+          = f.file_field :files, class: 'form-control', multiple: true, direct_upload: true
+        = f.submit 'Save', class: 'btn btn-primary'
