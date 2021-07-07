@@ -7,7 +7,9 @@ feature 'User can delete own question', %q{
 } do
   given(:author) { create(:user) }
   given(:user) { create(:user) }
+  given(:second_user) { create(:user) }
   given(:question) { create(:question, user: author) }
+  given(:question_with_files) { create(:question, :with_files, user: user) }
 
 
   scenario 'Question owner tries to delete question' do
@@ -35,5 +37,21 @@ feature 'User can delete own question', %q{
 
     expect(page).to have_content question.title
     expect(page).to_not have_link 'Delete'
+  end
+
+  scenario 'Is author can delete attachments', js: true do
+    sign_in(user)
+    visit question_path(question_with_files)
+    expect(page).to have_link question_with_files.filename
+    click_on 'Delete attach'
+    expect(page).to_not have_link question_with_files.filename
+  end
+
+  scenario 'Other authorized user can not delete attached files', js: true do
+    sign_in(second_user)
+    visit question_path(question_with_files)
+
+    expect(page).to have_link question_with_files.filename
+    expect(page).to_not have_link 'Delete attach'
   end
 end

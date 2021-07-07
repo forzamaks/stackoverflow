@@ -1,6 +1,9 @@
 .question.mt-3 data-question-id="#{question.id}"
   h3= question.title
   p= question.body
+  - if question.files.attached?
+    = render 'shared/attachments', resource: question
+      br/
   - if current_user&.author_of?(question)
     .btn-group
       = link_to 'Edit question', '#', class: 'btn btn-warning js-edit-question', data: {question_id: question.id}
@@ -14,4 +17,7 @@
       .mb-3
         = f.label :body, class: 'form-label'
         = f.text_area :body, class: 'form-control'
+      .mb-3
+        = f.label :files, class: 'form-label'
+        = f.file_field :files, class: 'form-control', multiple: true, direct_upload: true
       = f.submit 'Save', class: 'btn btn-primary'
