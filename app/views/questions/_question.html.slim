@@ -4,6 +4,12 @@
   - if question.files.attached?
     = render 'shared/attachments', resource: question
       br/
+  - if question.links.present?
+  .links 
+    legend Links: 
+    ul
+      - question.links.each do |link|
+        li= link_to link.name, link.url
   - if current_user&.author_of?(question)
     .btn-group
       = link_to 'Edit question', '#', class: 'btn btn-warning js-edit-question', data: {question_id: question.id}

@@ -4,6 +4,12 @@
       - if answer.best?
         span.badge.bg-success= 'Best'
       p= answer.body
+      - if answer.links.present?
+        .links 
+          legend Links: 
+          ul
+            - answer.links.each do |link|
+              li= link_to link.name, link.url
       - if answer.files.attached?
         = render 'shared/attachments', resource: answer
       br/
