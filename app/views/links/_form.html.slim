@@ -1,0 +1,12 @@
+.mb-3
+  legend Links:
+= f.fields_for :links do |l|
+  .row.mb-3 data-link-id=l.object.id
+    .col
+      = l.label :name, 'Link name', class: 'form-label'
+      = l.text_field :name, class: 'form-control'
+    .col
+      = l.label :url, class: 'form-label'
+      = l.text_field :url, class: 'form-control'
+.links
+  = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'

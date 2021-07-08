@@ -1,0 +1,16 @@
+.row.mt-3
+  .col
+    .h4 Rewards:
+    .row
+      - if !@rewards.empty?
+        - @rewards.each do |reward|
+          .col.col-3
+            .row
+              = "Question -#{reward.question.title}"
+            .row
+              = "Reward -#{reward.title}"
+            - if reward.image.attached?
+              = image_tag reward.image, size: "100x80"
+            hr
+      - else
+        = "You don't have any rewards" 

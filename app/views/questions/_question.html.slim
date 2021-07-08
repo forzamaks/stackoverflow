@@ -4,12 +4,12 @@
   - if question.files.attached?
     = render 'shared/attachments', resource: question
       br/
-  - if question.links.present?
-  .links 
-    legend Links: 
-    ul
-      - question.links.each do |link|
-        li= link_to link.name, link.url
+  - if question.links.present? && question.links.length > 0
+    .links 
+      legend Links: 
+      ul
+        - question.links.each do |link|
+          = render link
   - if current_user&.author_of?(question)
     .btn-group
       = link_to 'Edit question', '#', class: 'btn btn-warning js-edit-question', data: {question_id: question.id}
@@ -26,4 +26,6 @@
       .mb-3
         = f.label :files, class: 'form-label'
         = f.file_field :files, class: 'form-control', multiple: true, direct_upload: true
+      
+      =render 'links/form', f: f
       = f.submit 'Save', class: 'btn btn-primary'

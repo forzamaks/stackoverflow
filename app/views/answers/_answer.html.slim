@@ -9,7 +9,7 @@
           legend Links: 
           ul
             - answer.links.each do |link|
-              li= link_to link.name, link.url
+              = render link
       - if answer.files.attached?
         = render 'shared/attachments', resource: answer
       br/
@@ -31,4 +31,7 @@
         .mb-3
           = f.label :files, class: 'form-label'
           = f.file_field :files, class: 'form-control', multiple: true, direct_upload: true
+
+        =render 'links/form', f: f
+        
         = f.submit 'Save', class: 'btn btn-primary'

@@ -13,5 +13,7 @@ Rails.application.routes.draw do
   end
 
   root to: "questions#index"
+  resources :links, only: :destroy
+  resources :rewards, only: :index
   
 end
