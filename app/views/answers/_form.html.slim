@@ -7,15 +7,7 @@
   .mb-3
     = f.label :files, class: 'form-label'
     = f.file_field :files, class: 'form-control', multiple: true
-  .mb-3
-    legend Links: 
-  .mb-3 
-    = f.fields_for :links do |l|
-      .mb-3
-        = l.label :name, 'Link name', class: 'form-label'
-        = l.text_field :name, class: 'form-control'
-      .mb-3
-        = l.label :url, class: 'form-label'
-        = l.text_field :url, class: 'form-control'
+    
+  =render 'links/form', f: f
         
   = f.submit 'Answer', class: 'btn btn-primary'

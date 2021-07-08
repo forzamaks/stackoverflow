@@ -13,10 +13,17 @@ html
     nav.navbar.navbar-dark.bg-dark
       .container
         = link_to 'Stackoverflow', root_path, class: 'navbar-brand'
-        ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        ul.nav.me-auto.mb-2.mb-lg-0
           - if user_signed_in?
             li.nav-item
               = link_to 'Log out', destroy_user_session_path, method: Devise.sign_out_via, class: 'nav-link'
+            li.nav-item
+              = link_to 'Rewards', rewards_path, class: 'nav-link'
+          - else
+            li.nav-item
+              = link_to 'Enter', new_user_session_path, class: 'nav-link'
+            li.nav-item
+              = link_to 'Registration', new_user_registration_path, class: 'nav-link'
     / p.notice= notice
     / p.alert= alert
     = render 'shared/flash'
