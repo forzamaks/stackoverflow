@@ -1,4 +1,5 @@
 .question.mt-3 data-question-id="#{question.id}"
+  = render 'votes/vote', resource: question
   h3= question.title
   p= question.body
   - if question.files.attached?

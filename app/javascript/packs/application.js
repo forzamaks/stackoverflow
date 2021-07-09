@@ -13,6 +13,7 @@ const GistClient = require("gist-client")
 const gistClient = new GistClient()
 import './answers'
 import './questions'
+import './votes'
 
 window.jQuery = $;
 window.$ = $;

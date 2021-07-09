@@ -11,7 +11,7 @@ h1= 'New question'
     = f.label :files, class: 'form-label'
     = f.file_field :files, class: 'form-control', multiple: true
 
-  =render 'links/form', f: f
+  = render 'links/form', f: f
 
   = render 'rewards/form', f: f
 
