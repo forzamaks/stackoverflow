@@ -1,9 +1,22 @@
 class AnswersController < ApplicationController
+  include Voted
+  
   def new
   end
 
   def create
-    @answer = question.answers.create(answers_params.merge( user_id: current_user.id)  )
+    @answer = question.answers.create(answers_params.merge( user_id: current_user.id))
+    # @answer = question.answers.new(answers_params.merge( user_id: current_user.id))
+
+    # respond_to do |format|
+    #   if @answer.save
+    #     format.json { render json: @answer }
+    #   else
+    #     format.json do
+    #       render json: @answer.errors.full_messages, status: :unprocessable_entity
+    #     end
+    #   end
+    # end
   end
 
   def destroy
