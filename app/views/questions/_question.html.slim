@@ -1,16 +1,22 @@
 .question.mt-3 data-question-id="#{question.id}"
-  = render 'votes/vote', resource: question
+  = render 'votes/vote', resource: question, current_user: current_user
   h3= question.title
   p= question.body
   - if question.files.attached?
-    = render 'shared/attachments', resource: question
+    = render 'shared/attachments', resource: question, current_user: current_user
       br/
   - if question.links.present? && question.links.length > 0
     .links 
       legend Links: 
       ul
         - question.links.each do |link|
-          = render link
+          = render link, current_user: current_user
+  h3.mt-3.mb-3 Comments:
+  .question-comment
+    = render question.comments
+  - if current_user.present?
+    .answer-comments-form 
+      = render 'comments/form', resource: question
   - if current_user&.author_of?(question)
     .btn-group
       = link_to 'Edit question', '#', class: 'btn btn-warning js-edit-question', data: {question_id: question.id}

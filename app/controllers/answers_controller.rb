@@ -1,5 +1,8 @@
 class AnswersController < ApplicationController
   include Voted
+  include Commented
+
+  after_action :publish_answer, only: :create
 
   def new
   end
@@ -31,6 +34,8 @@ class AnswersController < ApplicationController
 
   def answer
     @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new
+    gon.answer_id = @answer.id
+    @answer
   end
 
   helper_method :answer
@@ -43,5 +48,15 @@ class AnswersController < ApplicationController
 
   def answers_params
     params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
+  end
+
+  def publish_answer
+    return if answer.errors.any?
+    ActionCable.server.broadcast( 
+      "answers#{params[:question_id]}", {
+        partial: ApplicationController.render( partial: 'answers/answer', locals: { answer: answer, current_user: current_user }),
+        answer: answer,
+        question: answer.question
+    })
   end
 end

@@ -1,0 +1,10 @@
+.comment_errors
+= form_with scope: :comment, 
+            url: resource.class.name.downcase.to_sym == :answer ? answer_comment_path(resource) : comment_question_path(resource),
+            local: false,
+            class: 'new-comment'  do |f|
+  .mb-3
+    = f.label :body, 'Comment text', class: 'form-label'
+    = f.text_area :body, class: 'form-control'
+
+  .mt-3 = f.submit 'Comment', class: 'btn btn-primary'

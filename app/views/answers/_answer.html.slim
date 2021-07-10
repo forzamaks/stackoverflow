@@ -1,7 +1,7 @@
 -if answer.persisted?
   .answer.card.mb-3 data-answer-id="#{answer.id}" class="#{answer.best? ? 'border-success' : ''}"
     .card-body
-      = render 'votes/vote', resource: answer
+      = render 'votes/vote', resource: answer, current_user: current_user
       - if answer.best?
         span.badge.bg-success= 'Best'
       p= answer.body
@@ -10,9 +10,9 @@
           legend Links: 
           ul
             - answer.links.each do |link|
-              = render link
+              = render link, current_user: current_user
       - if answer.files.attached?
-        = render 'shared/attachments', resource: answer
+        = render 'shared/attachments', resource: answer, current_user: current_user
       
       .btn-group
         - if current_user&.author_of?(answer.question) && !answer.best?
@@ -36,3 +36,10 @@
           =render 'links/form', f: f
           
           = f.submit 'Save', class: 'btn btn-primary'
+      
+      h3.mt-3.mb-3 Comments:
+      .answer-comment data-comment-answer=answer.id
+        = render answer.comments
+      - if current_user.present?
+        .answer-comments-form 
+          = render 'comments/form', resource: answer
