@@ -33,6 +33,7 @@ gem 'bootstrap', '~> 5.0.1'
 gem "aws-sdk-s3", require: false
 gem "cocoon"
 gem "octokit", "~> 4.0"
+gem "gon"
 
 
 group :development, :test do

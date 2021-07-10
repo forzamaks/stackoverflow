@@ -32,7 +32,7 @@ feature 'User can edit his question', %q{
           click_on 'Save'
   
           expect(page).to have_content 'edited question title'
-          expect(page).to_not have_selector 'textarea'
+          expect(page).to_not have_selector 'textarea#question_body'
         end
       end
 

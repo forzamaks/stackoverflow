@@ -1,7 +1,10 @@
 class QuestionsController < ApplicationController
   include Voted
-  
+  include Commented
+
   before_action :authenticate_user!, except: [:index, :show]
+
+  after_action :publish_question, only: :create
   def index
     @questions = Question.all
   end
@@ -9,6 +12,9 @@ class QuestionsController < ApplicationController
   def show
     @answer = question.answers.new
     @answer.links.new
+
+    gon.push({current_user: current_user})
+    gon.push({question_id: question.id})
   end
 
   def new
@@ -45,11 +51,25 @@ class QuestionsController < ApplicationController
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+    gon.question_id = @question.id
+    @question
   end
 
   helper_method :question
 
   def question_params
     params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url], reward_attributes: [:title, :image])
+  end
+
+  def publish_question
+    return if question.errors.any?
+    ActionCable.server.broadcast(
+      'questions', {
+        partial: ApplicationController.render(
+          partial: 'questions/question', 
+          locals: { question: question, current_user: current_user },
+        question: question
+      )
+    }) 
   end
 end
