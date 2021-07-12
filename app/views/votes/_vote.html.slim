@@ -1,23 +1,23 @@
-- if current_user && !current_user.author_of?(resource)
-  div
-    .btn-group.btn-group-sm
+div
+  .btn-group.btn-group-sm
+    - if can?(:vote_up, resource)
       = link_to 'vote +', polymorphic_path(resource, action: :vote_up),
                           method: :patch,
                           data: {type: :json},
                           class: 'btn btn-success btn-vote',
                           remote: true
-
+    - if can?(:vote_down, resource) 
       = link_to 'vote -', polymorphic_path(resource, action: :vote_down),
                           method: :patch,
                           data: {type: :json},
                           class: 'btn btn-danger btn-vote',
                           remote: true
-
+    - if can?(:unvote, resource)
       = link_to 'unvote', polymorphic_path(resource, action: :unvote),
                           method: :delete,
                           data: {type: :json},
                           class: 'btn btn-info btn-vote',
                           remote: true
 
-      .col.btn.btn-outline-primary.vote-result data-vote-id="#{resource.class.name.underscore}-#{resource.id}"
-        = resource.rating
+    .col.btn.btn-outline-primary.vote-result data-vote-id="#{resource.class.name.underscore}-#{resource.id}"
+      = resource.rating

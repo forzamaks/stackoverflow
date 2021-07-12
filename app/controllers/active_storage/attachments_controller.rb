@@ -3,7 +3,7 @@ class ActiveStorage::AttachmentsController < ApplicationController
   before_action :set_attachment
 
   def destroy
-    @attachment.purge if current_user&.author_of?(@attachment&.record)
+    @attachment.purge if authorize! :destroy, @attachment
   end
 
   private
