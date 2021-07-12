@@ -18,5 +18,4 @@
         
     -else
       = link_to link.name, link.url
-      - if current_user&.author_of?(link.linkable)
-        = link_to 'Delete', link_path(link), method: :delete, class:'btn btn-danger', remote: true
+      = link_to 'Delete', link_path(link), method: :delete, class:'btn btn-danger', remote: true if can?(:destroy, link)

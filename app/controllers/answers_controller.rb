@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: :create
 
+  authorize_resource
+
   def new
   end
 
@@ -12,13 +14,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user&.author_of?(answer)
-      answer.destroy
-    end
+    answer.destroy if authorize! :destroy, answer
   end
 
   def update
-    if current_user&.author_of?(answer)
+    if authorize! :update, answer
       answer.update(answers_params)
       @question = answer.question
     end

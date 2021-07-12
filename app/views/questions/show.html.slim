@@ -3,7 +3,7 @@
 .answers.mt-3
   = render question.answers.sort_by_best
 
-- if user_signed_in?
-  =render 'answers/form'
+- if can?(:create, Answer)
+  = render 'answers/form'
 - else 
   p= 'You need to sign in or sign up before continuing'
