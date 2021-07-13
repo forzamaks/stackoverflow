@@ -36,10 +36,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if authorize! :destroy, question
-      question.destroy
-      redirect_to questions_path, notice: 'Question successfully deleted.'
-    end
+    question.destroy
+    redirect_to questions_path, notice: 'Question successfully deleted.'
   end
 
   def update
