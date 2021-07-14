@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
-  it { should have_many(:answers).dependent(:destroy) }
-  it { should have_many(:links).dependent(:destroy) }
+  it_behaves_like 'commentable'
+  it_behaves_like 'linkable'
+  it_behaves_like 'votable'
+  
   it { should belong_to(:user) }
   
   it { should validate_presence_of :title }
