@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks',
   confirmations: 'confirmations' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -26,6 +27,18 @@ Rails.application.routes.draw do
 
   scope :active_storage, module: :active_storage, as: :active_storage do
     resources :attachments, only: [:destroy]
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+
+      resources :questions, only: %i[index show create destroy update] do
+        resources :answers, shallow: true, only: %i[index show create destroy update]
+      end
+    end
   end
 
   root to: "questions#index"
