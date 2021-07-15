@@ -14,11 +14,19 @@ class Answer < ApplicationRecord
 
   scope :sort_by_best, -> { order(best: :desc) }
 
+  after_create :email_notification
+
   def mark_as_best
     transaction do
       question.answers.update_all(best: false)
       update!(best: true)
       question.reward&.update!(user: user)
     end
+  end
+
+  private
+
+  def email_notification
+    NotificationsJob.perform_later(self)
   end
 end
