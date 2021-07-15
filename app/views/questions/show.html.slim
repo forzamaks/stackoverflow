@@ -1,5 +1,7 @@
 = render question
-
+.subscription
+  - if can?(:create, Subscription)
+    = render 'subscriptions/subscription', resource: question
 .answers.mt-3
   = render question.answers.sort_by_best
 
