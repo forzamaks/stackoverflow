@@ -1,0 +1,18 @@
+.row.justify-content-center.mt-3
+  - if @result.empty?
+    h3 No Result
+  - else
+    .list-group
+      - @result.each do |object|
+        .list-group-item
+          - if object.is_a?(Answer)
+            p = link_to object.question.body, question_path(object.question)
+            p = "#{object.class}: #{object.body}"
+          - elsif object.is_a?(Comment)
+            p = object.commentable.body
+            p = "#{object.commentable.class} comment: #{object.body}"
+            p = "#{object.class}: #{object.body}"
+          - elsif object.is_a?(User)
+            p = link_to object.email, root_path
+          - else
+            p = link_to object.title, question_path(object)

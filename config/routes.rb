@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'search', action: :index, controller: 'search'
   scope :active_storage, module: :active_storage, as: :active_storage do
     resources :attachments, only: [:destroy]
   end
