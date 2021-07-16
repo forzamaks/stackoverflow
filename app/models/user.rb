@@ -21,8 +21,9 @@ class User < ApplicationRecord
     FindForOauthServices.new(auth).call
   end
 
-  def subscribed?(object)
-    object.subscriptions.where(user: self).exists?
+  def subscribed?(question)
+    puts "#{question} dsfdfdsfsfsfffs"
+    subscriptions.where(question: question).exists?
   end
 
 end
