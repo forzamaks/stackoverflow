@@ -37,3 +37,5 @@ yarn-debug.log*
 node_modules
 /config/databese.yml
 /.env
+config/*sphinx.conf
+db/sphinx
