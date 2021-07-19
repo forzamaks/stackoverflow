@@ -5,7 +5,7 @@
 
 server "206.189.109.84", user: "deploy", roles: %w{app db web}, primary: true
 set :rails_env, :production
-
+set :branch, 'main'
 
 
 # Custom SSH Options
