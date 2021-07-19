@@ -35,7 +35,7 @@ class Ability
     end
 
     can [:vote_up, :vote_down, :unvote], [Question, Answer] do |vote|
-      !user.author_of?(vote)
+      user && !user.author_of?(vote)
     end
     can :create_subscription, Question
     can :destroy, Subscription, user_id: @user.id

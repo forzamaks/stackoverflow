@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   include Voted
   include Commented
 
+  before_action :authenticate_user!
+
   after_action :publish_answer, only: :create
 
   authorize_resource
@@ -54,9 +56,21 @@ class AnswersController < ApplicationController
     return if answer.errors.any?
     ActionCable.server.broadcast( 
       "answers#{params[:question_id]}", {
-        partial: ApplicationController.render( partial: 'answers/answer', locals: { answer: answer, current_user: current_user }),
         answer: answer,
-        question: answer.question
+        question: answer.question,
+
+
+        user_id: current_user.id,
+        files: attached_files,
+        links: answer.links,
+        question_author_id: @answer.question.user.id,
+
     })
+  end
+
+  def attached_files
+    return [] unless @answer.files.any?
+
+    @answer.files.map { |file| { id: file.id, name: file.filename.to_s, url: url_for(file) } }
   end
 end

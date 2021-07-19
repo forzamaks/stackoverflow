@@ -34,6 +34,8 @@ gem "aws-sdk-s3", require: false
 gem "cocoon"
 gem "octokit", "~> 4.0"
 gem "gon"
+gem 'handlebars_assets'
+gem 'handlebars-source'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'

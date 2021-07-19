@@ -1,0 +1,43 @@
+<div class="answer card mb-3" data-answer-id={{params.answer.id}}>
+  <div class="card-body">
+
+    <p>{{params.answer.body}}</p>
+    {{#if params.links}}
+      <div class="links">
+        <legend>Links:</legend>
+        <ul>
+          {{#each params.links}}
+            <li class="mb-2 ml-4" data-link-id="{{this.id}}">
+              <a href="{{this.url}}">{{this.name}}</a>
+              {{#if user_id }}
+                <a href="/links/{{this.id}}" data-method="delete" data-remote="true" class="btn btn-danger">Delete</a>
+              {{/if}}
+            </li>
+          {{/each}} 
+        </ul>
+      </div>
+      
+    {{/if}}
+
+    {{#if params.files}}
+      {{#each params.files}}
+        <div class="btn-group" data-file-id="{{this.id}}">
+          <a href="{{this.url}}" class="btn btn-success">{{this.name}}</a>
+          {{#if user_id }}
+            <a class="btn btn-danger" data-remote="true" rel="nofollow" data-method="delete" href="/active_storage/attachments/{{this.id}}">Delete attach</a>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{/if}}
+
+    <div class="btn-group">
+      {{#if is_question_author }}
+        <a class="btn btn-primary" data-remote="true" rel="nofollow" data-method="post" href="/answers/{{params.answer.id}}/mark_as_best">Mark as favorite</a>
+      {{/if}}
+      {{#if user_id }}
+        <a class="btn btn-warning js-edit" data-answer-id="{{params.answer.id}}" href="#">Edit</a>
+        <a class="btn btn-danger" data-remote="true" rel="nofollow" data-method="delete" href="/answers/{{params.answer.id}}">Delete answer</a>
+      {{/if}}
+    </div>
+  </div>
+</div>

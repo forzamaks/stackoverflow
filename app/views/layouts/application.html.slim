@@ -10,6 +10,7 @@ html
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = include_gon
 
   body
     nav.navbar.navbar-dark.bg-dark
@@ -26,6 +27,12 @@ html
               = link_to 'Enter', new_user_session_path, class: 'nav-link'
             li.nav-item
               = link_to 'Registration', new_user_registration_path, class: 'nav-link'
+        .search.d-flex.mx-5
+          = form_with url: search_path, local: true do |f|
+            .btn-group
+              = f.text_field :body, class: 'form-control'
+              = f.select :type, SearchService::TYPES, class: 'form-control'
+              = f.submit 'Search', class: 'btn btn-primary btn-sm'
     / p.notice= notice
     / p.alert= alert
     = render 'shared/flash'
