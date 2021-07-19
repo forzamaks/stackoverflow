@@ -15,10 +15,6 @@ consumer.subscriptions.create("QuestionsChannel", {
     <p>${data.question.body}</p>
     <hr/>
     `
-    $.each(data.links, function(index, value) {
-      result += `<a href = ${value.url}> ${value.name} </a>`
-    })
-
     return result
   }
 })

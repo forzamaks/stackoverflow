@@ -61,7 +61,7 @@ class AnswersController < ApplicationController
         user_id: current_user.id,
         files: attached_files,
         links: answer.links,
-        question_author_id: @answer.question.user.id,
+        question_author_id: answer.question.user.id,
 
     })
   end
