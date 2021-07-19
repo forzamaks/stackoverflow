@@ -17,8 +17,8 @@ import './answers'
 import './questions'
 import './votes'
 
-window.jQuery = $;
-window.$ = $;
+// window.jQuery = $;
+// window.$ = $;
 window.gistClient = gistClient;
 
 
