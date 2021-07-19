@@ -58,8 +58,6 @@ class AnswersController < ApplicationController
       "answers#{params[:question_id]}", {
         answer: answer,
         question: answer.question,
-
-
         user_id: current_user.id,
         files: attached_files,
         links: answer.links,

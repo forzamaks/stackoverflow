@@ -9,6 +9,8 @@ set :rail_env, :production
 set :branch, 'main'
 
 set :rvm_map_bins, [ 'bundle', 'rails', 'rake', 'setup', 'webpack', 'webpack-dev-server', 'yarn' ]
+set :pty,  false
+set :sidekiq_monit_use_sudo, false
 
 # Custom SSH Options
 # ==================

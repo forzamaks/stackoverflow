@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
-      redirect_to @question, notice: 'You question successfully created.'
+      # redirect_to @question, notice: 'You question successfully created.'
     else
       render :new
     end
@@ -68,11 +68,8 @@ class QuestionsController < ApplicationController
     return if question.errors.any?
     ActionCable.server.broadcast(
       'questions', {
-        partial: ApplicationController.render(
-          partial: 'questions/question', 
-          locals: { question: question, current_user: current_user },
-        question: question
-      )
+        question: question,
+        user_id: current_user.id,
     }) 
   end
 end
