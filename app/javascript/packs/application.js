@@ -11,15 +11,15 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import 'jquery'
 import "@nathanvda/cocoon"
-const GistClient = require("gist-client")
-const gistClient = new GistClient()
+// const GistClient = require("gist-client")
+// const gistClient = new GistClient()
 import './answers'
 import './questions'
 import './votes'
 
 // window.jQuery = $;
 // window.$ = $;
-window.gistClient = gistClient;
+// window.gistClient = gistClient;
 
 
 Rails.start()

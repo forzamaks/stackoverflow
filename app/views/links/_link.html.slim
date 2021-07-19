@@ -4,7 +4,7 @@
       .row 
         .col.col-2 =link.name
         .col.col-10 data-gist-id=link.id
-      javascript:
+      / javascript:
         gistClient.setToken("#{ENV['GITHUB_ACCESS_TOKEN']}");
         gistClient.getOneById("#{link.gist_id}")
         .then(response => {
