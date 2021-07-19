@@ -7,6 +7,7 @@ server "206.189.109.84", user: "deploy", roles: %w{app db web}, primary: true
 set :rail_env, :production
 set :branch, 'main'
 
+set :rvm_map_bins, [ 'bundle', 'rails', 'rake', 'setup', 'webpack', 'webpack-dev-server', 'yarn' ]
 
 # Custom SSH Options
 # ==================
