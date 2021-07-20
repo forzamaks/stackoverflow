@@ -279,7 +279,8 @@ Devise.setup do |config|
                   Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_id],
                   Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_secret],
                   scope: [:email],
-                  redirect_uri: Rails.application.credentials[Rails.env.to_sym][:vkontakte][:redirect_uri]
+                  redirect_uri: Rails.application.credentials[Rails.env.to_sym][:vkontakte][:redirect_uri],
+                  display: 'page'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
