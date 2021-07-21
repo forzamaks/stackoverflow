@@ -1,45 +1,46 @@
 -if answer.persisted?
-  .answer.card.mb-3 data-answer-id="#{answer.id}" class="#{answer.best? ? 'border-success' : ''}"
-    .card-body
-      = render 'votes/vote', resource: answer
-      - if answer.best?
-        span.badge.bg-success= 'Best'
-      p= answer.body
-      - if answer.links.present?
-        .links 
-          legend Links: 
-          ul
-            - answer.links.each do |link|
-              = render link
-      - if answer.files.attached?
-        = render 'shared/attachments', resource: answer
-      
-      .btn-group
-        - if can?(:mark_as_best, answer) && !answer.best?
-            = link_to 'Mark as favorite', mark_as_best_answer_path(answer), method: :post, remote: true, class: 'btn btn-primary'
-        = link_to 'Edit', '#', class: 'btn btn-warning js-edit', data: {answer_id: answer.id} if can?(:update, answer)
-        - if can?(:destroy, answer)
-          = link_to 'Delete answer', answer_path(answer),
-                                    method: :delete,
-                                    remote: true,
-                                    class: 'btn btn-danger'
-      - if can?(:update, answer)
-        = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
-          .form-errors data-form-id="#{answer.id}"
-          .mb-3
-            = f.label :body, class: 'form-label'
-            = f.text_area :body, class: 'form-control'
-          .mb-3
-            = f.label :files, class: 'form-label'
-            = f.file_field :files, class: 'form-control', multiple: true, direct_upload: true
+  - cache answer do
+    .answer.card.mb-3 data-answer-id="#{answer.id}" class="#{answer.best? ? 'border-success' : ''}"
+      .card-body
+        = render 'votes/vote', resource: answer
+        - if answer.best?
+          span.badge.bg-success= 'Best'
+        p= answer.body
+        - if answer.links.present?
+          .links 
+            legend Links: 
+            ul
+              - answer.links.each do |link|
+                = render link
+        - if answer.files.attached?
+          = render 'shared/attachments', resource: answer
+        
+        .btn-group
+          - if can?(:mark_as_best, answer) && !answer.best?
+              = link_to 'Mark as favorite', mark_as_best_answer_path(answer), method: :post, remote: true, class: 'btn btn-primary'
+          = link_to 'Edit', '#', class: 'btn btn-warning js-edit', data: {answer_id: answer.id} if can?(:update, answer)
+          - if can?(:destroy, answer)
+            = link_to 'Delete answer', answer_path(answer),
+                                      method: :delete,
+                                      remote: true,
+                                      class: 'btn btn-danger'
+        - if can?(:update, answer)
+          = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
+            .form-errors data-form-id="#{answer.id}"
+            .mb-3
+              = f.label :body, class: 'form-label'
+              = f.text_area :body, class: 'form-control'
+            .mb-3
+              = f.label :files, class: 'form-label'
+              = f.file_field :files, class: 'form-control', multiple: true, direct_upload: true
 
-          =render 'links/form', f: f
-          
-          = f.submit 'Save', class: 'btn btn-primary'
-      
-      h3.mt-3.mb-3 Comments:
-      .answer-comment data-comment-answer=answer.id
-        = render answer.comments
-      - if can?(:commnet, answer)
-        .answer-comments-form 
-          = render 'comments/form', resource: answer
+            =render 'links/form', f: f
+            
+            = f.submit 'Save', class: 'btn btn-primary'
+        
+        h3.mt-3.mb-3 Comments:
+        .answer-comment data-comment-answer=answer.id
+          = render answer.comments
+        - if can?(:commnet, answer)
+          .answer-comments-form 
+            = render 'comments/form', resource: answer

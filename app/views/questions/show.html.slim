@@ -1,11 +1,12 @@
-= render question
-.subscription
-  - if can?(:create, Subscription)
-    = render 'subscriptions/subscription', resource: question
-.answers.mt-3
-  = render question.answers.sort_by_best
+- cache question do
+  = render question
+  .subscription
+    - if can?(:create, Subscription)
+      = render 'subscriptions/subscription', resource: question
+  .answers.mt-3
+    = render question.answers.sort_by_best
 
-- if can?(:create, Answer)
-  = render 'answers/form'
-- else 
-  p= 'You need to sign in or sign up before continuing'
+  - if can?(:create, Answer)
+    = render 'answers/form'
+  - else 
+    p= 'You need to sign in or sign up before continuing'

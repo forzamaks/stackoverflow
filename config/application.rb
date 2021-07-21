@@ -24,6 +24,8 @@ module Stackoverflow
 
     config.autoload_paths += %W(#{Rails.root}/app/services)
 
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
+
     config.generators do |g|
       g.test_framework :rspec,
                         view_specs: false,
