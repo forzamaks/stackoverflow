@@ -1,21 +1,22 @@
 -if link.linkable.links.length > 0
-  li.mb-2.ml-4 data-link-id=link.id
-    - if link.is_gist?
-      .row 
-        .col.col-2 =link.name
-        .col.col-10 data-gist-id=link.id
-      / javascript:
-        gistClient.setToken("#{ENV['GITHUB_ACCESS_TOKEN']}");
-        gistClient.getOneById("#{link.gist_id}")
-        .then(response => {
-            Object.keys(response.files).forEach(file => {
-              let current = document.querySelector('.col[data-gist-id="#{link.id}"]')
-              current.innerText = response.files[file].content
-            })
-        }).catch(err => {
-            console.log(err)
-        })
-        
-    -else
-      = link_to link.name, link.url
-      = link_to 'Delete', link_path(link), method: :delete, class:'btn btn-danger', remote: true if can?(:destroy, link)
+  - cache link do
+    li.mb-2.ml-4 data-link-id=link.id
+      - if link.is_gist?
+        .row 
+          .col.col-2 =link.name
+          .col.col-10 data-gist-id=link.id
+        javascript:
+          gistClient.setToken("#{ENV['GITHUB_ACCESS_TOKEN']}");
+          gistClient.getOneById("#{link.gist_id}")
+          .then(response => {
+              Object.keys(response.files).forEach(file => {
+                let current = document.querySelector('.col[data-gist-id="#{link.id}"]')
+                current.innerText = response.files[file].content
+              })
+          }).catch(err => {
+              console.log(err)
+          })
+          
+      -else
+        = link_to link.name, link.url
+        = link_to 'Delete', link_path(link), method: :delete, class:'btn btn-danger', remote: true if can?(:destroy, link)

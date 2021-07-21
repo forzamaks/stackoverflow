@@ -1,5 +1,6 @@
 - resource.files.each do |file|
-  .btn-group.mb-3 data-file-id="#{file.id}"
-    =link_to file.filename.to_s, url_for(file), class: 'btn btn-success'
-    - if can?(:destroy, resource)
-      = link_to 'Delete attach', active_storage_attachment_path(file), class: 'btn btn-danger', method: :delete, remote: true
+  - cache resource do
+    .btn-group.mb-3 data-file-id="#{file.id}"
+      =link_to file.filename.to_s, url_for(file), class: 'btn btn-success'
+      - if can?(:destroy, resource)
+        = link_to 'Delete attach', active_storage_attachment_path(file), class: 'btn btn-danger', method: :delete, remote: true
